@@ -1,0 +1,16 @@
+idCliente,nombre,edad,telefono,sexo,tieneTitulo
+1,Valentina Velastegui,28,555123456,M,true
+2,Alejandro Rodriguez,35,555987654,F,false
+3,Jhoan Acosta,40,555321654,M,true
+4,Ana Perez,22,555654321,F,false
+5,Maria Ramirez,30,555987123,F,true
+6,Pablo Mendoza,50,555456789,M,false
+7,Juan Castillo,29,555111222,F,true
+8,Jose Perez,24,555333444,M,false
+9,Claudia Gomez,33,555555666,F,false
+10,Tomas Vega,37,555777888,M,true
+11,Pedro Vargas,45,555999000,M,true
+12,Isabel Cruz,25,555888999,F,true
+13,Camilo Rojas,32,555444555,M,false
+14,Lucía Campos,27,555222333,F,false
+15,Sofia Cortes,21,555111000,F,true
