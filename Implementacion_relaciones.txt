@@ -1,0 +1,29 @@
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/data/productos_categorias.csv' AS row
+WITH row WHERE row.idProducto IS NOT NULL AND row.idCategoria IS NOT NULL
+MATCH (p:Producto {idProducto: toInteger(row.idProducto)})
+MATCH (c:Categoria {idCategoria: toInteger(row.idCategoria)})
+MERGE (p)-[:PERTENECE_A]->(c);
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/SUMINISTRADO_POR.csv' AS row
+WITH row WHERE row.idProducto IS NOT NULL AND row.idProveedor IS NOT NULL
+MATCH (p:Producto {idProducto: toInteger(row.idProducto)})
+MATCH (pr:Proveedor {idProveedor: toInteger(row.idProveedor)})
+MERGE (p)-[:SUMINISTRADO_POR]->(pr);
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/data/HA_VISTO.csv' AS row
+WITH row WHERE row.idCliente IS NOT NULL AND row.idProducto IS NOT NULL
+MATCH (c:Cliente {idCliente: toInteger(row.idCliente)})
+MATCH (p:Producto {idProducto: toInteger(row.idProducto)})
+MERGE (c)-[:HA_VISTO]->(p);
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/data/ESTA_COMPUESTA_DE.csv' AS row
+WITH row WHERE row.idOrden IS NOT NULL AND row.idProducto IS NOT NULL
+MATCH (o:Orden {idOrden: toInteger(row.idOrden)})
+MATCH (p:Producto {idProducto: toInteger(row.idProducto)})
+MERGE (o)-[:ESTA_COMPUESTA_DE {cantidad: toInteger(row.cantidad)}]->(p);
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/data/ESTA_RELACIONADO.csv' AS row
+WITH row WHERE row.idProducto1 IS NOT NULL AND row.idProducto2 IS NOT NULL
+MATCH (p1:Producto {idProducto: toInteger(row.idProducto1)})
+MATCH (p2:Producto {idProducto: toInteger(row.idProducto2)})
+MERGE (p1)-[:ESTA_RELACIONADO]->(p2);
