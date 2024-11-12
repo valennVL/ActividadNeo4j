@@ -1,0 +1,32 @@
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/Clientes.csv' AS row
+WITH row WHERE row.idCliente IS NOT NULL
+MERGE (:Cliente {
+    idCliente: toInteger(row.idCliente),
+    nombre: row.nombre,
+    edad: toInteger(row.edad),
+    telefono: row.telefono,
+    sexo: row.sexo,
+    tieneTitulo: row.tieneTitulo = 'true'
+});
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/Productos.csv' AS row
+WITH row WHERE row.idProducto IS NOT NULL
+MERGE (:Producto {
+    idProducto: toInteger(row.idProducto),
+    nombre: row.nombre,
+    precio: toFloat(row.precio)
+});
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/Proveedores.csv' AS row
+WITH row WHERE row.idProveedor IS NOT NULL
+MERGE (:Proveedor {
+    idProveedor: toInteger(row.idProveedor),
+    nombre: row.nombre
+});
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/Categorias.csv' AS row
+WITH row WHERE row.idCategoria IS NOT NULL
+MERGE (:Categoria {
+    idCategoria: toInteger(row.idCategoria),
+    nombre: row.nombre
+});
