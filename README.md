@@ -1,6 +1,3 @@
 # ActividadNeo4j
-Archivos para la actividad de bases de datos en Neo4 
-Los archivos que se van a entregar son los txt que comienzan con la palabra implementacion:
-Falta:
-Acomodar archivo Implemntacion relaciones
-Hacer todas las consultas
+FALTAN RELACIONES, HACER LAS RELACIONES FALTANTES .CSV Y AÑADIRLAS EN EL ARCHIVO IMPLEMENTACION RELACIONES.
+FALTAN CONSULTAS(ES CASI EL 50% DE LA NOTA)
