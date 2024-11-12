@@ -1,3 +1,4 @@
 # ActividadNeo4j
 FALTAN RELACIONES, HACER LAS RELACIONES FALTANTES .CSV Y AÑADIRLAS EN EL ARCHIVO IMPLEMENTACION RELACIONES.
 FALTAN CONSULTAS(ES CASI EL 50% DE LA NOTA)
+*Los archivos que dicen implementacion son los que se van a mandar en la entrega"
