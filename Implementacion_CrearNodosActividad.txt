@@ -74,7 +74,8 @@ LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/Actividad
 WITH row WHERE row.idOrden IS NOT NULL
 MERGE (:Orden {
     idOrden: toInteger(row.idOrden),
-    fecha: row.fecha,
-    total: toFloat(row.total)
+    fecha: toString(row.fechaOrden),
+    total: toFloat(row.monto)
 });
+
 
