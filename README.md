@@ -1,4 +1,4 @@
 # ActividadNeo4j
-FALTAN RELACIONES, HACER LAS RELACIONES FALTANTES .CSV Y AÑADIRLAS EN EL ARCHIVO IMPLEMENTACION RELACIONES.
-FALTAN CONSULTAS(ES CASI EL 50% DE LA NOTA)
-*Los archivos que dicen implementacion son los que se van a mandar en la entrega"
+Ya esta la implementacion de los nodos y de las relaciones. (ya los probe)
+Solo faltan las consultas
+*Los archivos que dicen implementacion son los que se van a mandar en la entrega y son los que se corren en NodeJs"
