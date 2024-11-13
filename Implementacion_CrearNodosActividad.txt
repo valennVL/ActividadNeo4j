@@ -1,3 +1,4 @@
+
 LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/Clientes.csv' AS row
 WITH row WHERE row.idCliente IS NOT NULL
 MERGE (:Cliente {
@@ -9,6 +10,7 @@ MERGE (:Cliente {
     tieneTitulo: row.tieneTitulo = 'true'
 });
 
+
 LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/Productos.csv' AS row
 WITH row WHERE row.idProducto IS NOT NULL
 MERGE (:Producto {
@@ -17,6 +19,7 @@ MERGE (:Producto {
     precio: toFloat(row.precio)
 });
 
+
 LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/Proveedores.csv' AS row
 WITH row WHERE row.idProveedor IS NOT NULL
 MERGE (:Proveedor {
@@ -24,9 +27,54 @@ MERGE (:Proveedor {
     nombre: row.nombre
 });
 
+
 LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/Categorias.csv' AS row
 WITH row WHERE row.idCategoria IS NOT NULL
 MERGE (:Categoria {
     idCategoria: toInteger(row.idCategoria),
     nombre: row.nombre
 });
+
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/Aficiones.csv' AS row
+WITH row WHERE row.idAficion IS NOT NULL
+MERGE (:Aficion {
+    idAficion: toInteger(row.idAficion),
+    nombre: row.nombre
+});
+
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/Ciudades.csv' AS row
+WITH row WHERE row.idCiudad IS NOT NULL
+MERGE (:Ciudad {
+    idCiudad: toInteger(row.idCiudad),
+    nombre: row.nombre
+});
+
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/Direcciones.csv' AS row
+WITH row WHERE row.idDireccion IS NOT NULL
+MERGE (:Direccion {
+    idDireccion: toInteger(row.idDireccion),
+    calle: row.calle,
+    numero: toInteger(row.numero),
+    ciudad: row.ciudad
+});
+
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/Estudios.csv' AS row
+WITH row WHERE row.idEstudio IS NOT NULL
+MERGE (:Estudio {
+    idEstudio: toInteger(row.idEstudio),
+    nombre: row.nombre
+});
+
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/Ordenes.csv' AS row
+WITH row WHERE row.idOrden IS NOT NULL
+MERGE (:Orden {
+    idOrden: toInteger(row.idOrden),
+    fecha: row.fecha,
+    total: toFloat(row.total)
+});
+
