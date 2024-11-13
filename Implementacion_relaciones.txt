@@ -60,5 +60,5 @@ LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/Actividad
 WITH row WHERE row.idDireccion IS NOT NULL AND row.idCiudad IS NOT NULL
 MATCH (d:Direccion {idDireccion: toInteger(row.idDireccion)})
 MATCH (ci:Ciudad {idCiudad: toInteger(row.idCiudad)})
-MERGE (d)-[:ESTA_UBICADO_EN]->(ci);
+MERGE (d)-[:ESTA_UBICADA_EN]->(ci);
 
