@@ -1,29 +1,64 @@
-LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/data/productos_categorias.csv' AS row
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/PERTENECE_A.csv' AS row
 WITH row WHERE row.idProducto IS NOT NULL AND row.idCategoria IS NOT NULL
 MATCH (p:Producto {idProducto: toInteger(row.idProducto)})
 MATCH (c:Categoria {idCategoria: toInteger(row.idCategoria)})
 MERGE (p)-[:PERTENECE_A]->(c);
 
-LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/SUMINISTRADO_POR.csv' AS row
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/ESTA_RELACIONADO.csv' AS row
+WITH row WHERE row.idProducto1 IS NOT NULL AND row.idProducto2 IS NOT NULL
+MATCH (p1:Producto {idProducto: toInteger(row.idProducto1)})
+MATCH (p2:Producto {idProducto: toInteger(row.idProducto2)})
+MERGE (p1)-[:ESTA_RELACIONADO]->(p2);
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/DISTRIBUIDO_POR.csv' AS row
 WITH row WHERE row.idProducto IS NOT NULL AND row.idProveedor IS NOT NULL
 MATCH (p:Producto {idProducto: toInteger(row.idProducto)})
 MATCH (pr:Proveedor {idProveedor: toInteger(row.idProveedor)})
-MERGE (p)-[:SUMINISTRADO_POR]->(pr);
+MERGE (p)-[:DISTRIBUIDO_POR]->(pr);
 
-LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/data/HA_VISTO.csv' AS row
-WITH row WHERE row.idCliente IS NOT NULL AND row.idProducto IS NOT NULL
-MATCH (c:Cliente {idCliente: toInteger(row.idCliente)})
-MATCH (p:Producto {idProducto: toInteger(row.idProducto)})
-MERGE (c)-[:HA_VISTO]->(p);
-
-LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/data/ESTA_COMPUESTA_DE.csv' AS row
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/ESTA_COMPUESTA_DE.csv' AS row
 WITH row WHERE row.idOrden IS NOT NULL AND row.idProducto IS NOT NULL
 MATCH (o:Orden {idOrden: toInteger(row.idOrden)})
 MATCH (p:Producto {idProducto: toInteger(row.idProducto)})
 MERGE (o)-[:ESTA_COMPUESTA_DE {cantidad: toInteger(row.cantidad)}]->(p);
 
-LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/data/ESTA_RELACIONADO.csv' AS row
-WITH row WHERE row.idProducto1 IS NOT NULL AND row.idProducto2 IS NOT NULL
-MATCH (p1:Producto {idProducto: toInteger(row.idProducto1)})
-MATCH (p2:Producto {idProducto: toInteger(row.idProducto2)})
-MERGE (p1)-[:ESTA_RELACIONADO]->(p2);
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/HA_VISTO.csv' AS row
+WITH row WHERE row.idCliente IS NOT NULL AND row.idProducto IS NOT NULL
+MATCH (c:Cliente {idCliente: toInteger(row.idCliente)})
+MATCH (p:Producto {idProducto: toInteger(row.idProducto)})
+MERGE (c)-[:HA_VISTO]->(p);
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/HA_CREADO.csv' AS row
+WITH row WHERE row.idCliente IS NOT NULL AND row.idOrden IS NOT NULL
+MATCH (c:Cliente {idCliente: toInteger(row.idCliente)})
+MATCH (o:Orden {idOrden: toInteger(row.idOrden)})
+MERGE (c)-[:HA_CREADO]->(o);
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/SE_UBICA_EN.csv' AS row
+WITH row WHERE row.idProveedor IS NOT NULL AND row.idCiudad IS NOT NULL
+MATCH (pr:Proveedor {idProveedor: toInteger(row.idProveedor)})
+MATCH (ci:Ciudad {idCiudad: toInteger(row.idCiudad)})
+MERGE (pr)-[:SE_UBICA_EN]->(ci);
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/TIENE_UNA.csv' AS row
+WITH row WHERE row.idCliente IS NOT NULL AND row.idAficcion IS NOT NULL
+MATCH (c:Cliente {idCliente: toInteger(row.idCliente)})
+MERGE (c)-[:TIENE_UNA {aficcion: row.idAficcion}]->(a:Aficcion {nombre: row.idAficcion});
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/TIENE_TITULO_EN.csv' AS row
+WITH row WHERE row.idCliente IS NOT NULL AND row.idEstudio IS NOT NULL
+MATCH (c:Cliente {idCliente: toInteger(row.idCliente)})
+MERGE (c)-[:TIENE_TITULO_EN {titulo: row.idEstudio}]->(e:Estudio {nombre: row.idEstudio});
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/VIVE_EN.csv' AS row
+WITH row WHERE row.idCliente IS NOT NULL AND row.idDireccion IS NOT NULL
+MATCH (c:Cliente {idCliente: toInteger(row.idCliente)})
+MATCH (d:Direccion {idDireccion: toInteger(row.idDireccion)})
+MERGE (c)-[:VIVE_EN]->(d);
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/ESTA_UBICADO_EN.csv' AS row
+WITH row WHERE row.idDireccion IS NOT NULL AND row.idCiudad IS NOT NULL
+MATCH (d:Direccion {idDireccion: toInteger(row.idDireccion)})
+MATCH (ci:Ciudad {idCiudad: toInteger(row.idCiudad)})
+MERGE (d)-[:ESTA_UBICADO_EN]->(ci);
+
