@@ -51,14 +51,14 @@ MERGE (:Ciudad {
     nombre: row.nombre
 });
 
-
 LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/Direcciones.csv' AS row
-WITH row WHERE row.idDireccion IS NOT NULL
+WITH row WHERE row.idDireccion IS NOT NULL AND row.ubicacion IS NOT NULL
 MERGE (:Direccion {
     idDireccion: toInteger(row.idDireccion),
-    calle: row.calle,
-    numero: toInteger(row.numero),
-    ciudad: row.ciudad
+    ubicacion: COALESCE(row.ubicacion, 'Desconocida'),
+    numero: COALESCE(toInteger(row.numero), 0),
+    barrio: COALESCE(row.barrio, 'No especificado'),
+    codigoPostal: COALESCE(row.codigoPostal, '00000')
 });
 
 
