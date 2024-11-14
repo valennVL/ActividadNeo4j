@@ -1,0 +1,79 @@
+1.PRODUCTOS MAS COMPRADOS
+MATCH (c:Cliente {idCliente:3})-[:HA_CREADO]->(o:Orden)-[r:ESTA_COMPUESTA_DE]->(p:Producto)
+RETURN p.nombre AS producto, SUM(r.cantidad) AS totalComprado
+ORDER BY totalComprado DESC
+
+
+
+2.¿Cuáles son los productos más demandados por los clientes de un sexo
+(hombre/mujer)?
+
+CALL {
+  MATCH (c:Cliente {sexo: 'M'})-[:HA_CREADO]->(o:Orden)-[r:ESTA_COMPUESTA_DE]->(p:Producto)
+  RETURN p.nombre AS producto, SUM(r.cantidad) AS totalDemandado
+  ORDER BY totalDemandado DESC // mi gente esto es para la columna de hombres del más demandado
+ 
+}
+WITH collect(producto) AS LosHombres // acordaros para guardar 
+
+CALL {
+  MATCH (c:Cliente {sexo: 'F'})-[:HA_CREADO]->(o:Orden)-[r:ESTA_COMPUESTA_DE]->(p:Producto)
+  RETURN p.nombre AS producto, SUM(r.cantidad) AS totalDemandado
+  ORDER BY totalDemandado DESC
+  
+}
+WITH LosHombres, collect(producto) AS LasMujeres
+
+
+WITH LosHombres, LasMujeres, 
+     CASE WHEN size(LosHombres) > size(LasMujeres) THEN size(LosHombres) ELSE size(LasMujeres) END AS maxSize
+
+
+UNWIND range(0, maxSize - 1) AS indice 
+RETURN 
+  LosHombres[indice] AS masDemandadoPorHombres, 
+  LasMujeres[indice] AS masDemandadoPorMujeres
+
+3.¿Cuáles son los principales productos comprados por los clientes que tiene un título
+académico?
+tercera consulta MATCH (c:Cliente{tieneTitulo:true})-[:HA_CREADO]->(o:Orden)-[r:ESTA_COMPUESTA_DE]->(p:Producto)
+RETURN p.nombre AS producto, SUM(r.cantidad) AS totalDemandado
+ORDER BY totalDemandado DESC
+
+4.RECOMENDAR POR CIUDAD
+MATCH (cl:Cliente)-[:HA_CREADO]->(o:Orden)-[:ESTA_COMPUESTA_DE]->(p:Producto)-[:DISTRIBUIDO_POR]->(pr:Proveedor)-[:SE_UBICA_EN]->(cd:Ciudad)
+MATCH (c)-[:VIVE_EN]->(dr:Direccion)-[:ESTA_UBICADA_EN]->(cl2:Ciudad)
+where cl2= cd
+return p, cd.nombre, cl2.nombre
+
+
+5.Sugerir productos al cliente respecto a los seleccionados en la orden. ¿Qué otros
+productos le podrían interesar al cliente respecto a los seleccionados en la orden?
+En este caso, se debe tener en cuenta los productos relacionados a cada producto,
+no deben existir repetidos.
+
+MATCH (c:Cliente {idCliente: 3})-[:HA_CREADO]->(orden:Orden)-[:ESTA_COMPUESTA_DE]->(p:Producto)
+MATCH (p)-[:ESTA_RELACIONADO]->(sugerido:Producto)
+WHERE NOT (orden)-[:ESTA_COMPUESTA_DE]->(sugerido)
+RETURN DISTINCT sugerido.idProducto AS idProducto, sugerido.nombre AS nombre
+ORDER BY nombre; QUINTA CONSULTA
+
+6.Sugerir productos al cliente respecto a los que ha visto.
+MATCH (c:Cliente {idCliente: 1})-[:HA_VISTO]->(p:Producto)-[:PERTENECE_A]->(cat:Categoria)
+MATCH (otros:Producto)-[:PERTENECE_A]->(cat)
+RETURN DISTINCT otros.nombre AS productoSugerido, cat.nombre AS categoria
+ORDER BY categoria, productoSugerido;
+
+
+7.
+MATCH (c:Cliente {idCliente: $clienteId})-[:VIVE_EN]->(d:Direccion)-[:ESTA_UBICADA_EN]->(ci:Ciudad)
+MATCH (vecino:Cliente)-[:VIVE_EN]->(dVecino:Direccion)-[:ESTA_UBICADA_EN]->(ci)
+WHERE vecino <> c // para no mostar  al cliente que estmoas mostrando
+
+MATCH (vecino)-[:HA_CREADO]->(o:Orden)-[:ESTA_COMPUESTA_DE]->(p:Producto)
+WHERE NOT (c)-[:HA_VISTO]->(p) // para no mostrar los que hay he visto
+RETURN DISTINCT p.nombre AS productoSugerido, COUNT(*) AS frecuencia
+ORDER BY frecuencia DESC, productoSugerido
+
+
+
