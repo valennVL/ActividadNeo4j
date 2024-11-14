@@ -36,15 +36,10 @@ MERGE (c)-[:HA_CREADO]->(o);
 
 LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/SE_UBICA_EN.csv' AS row
 WITH row WHERE row.idProveedor IS NOT NULL AND row.idCiudad IS NOT NULL
-MATCH (pr:Proveedor {idProveedor: toInteger(row.idProveedor)})
-MATCH (ci:Ciudad {idCiudad: toInteger(row.idCiudad)})
+MERGE (pr:Proveedor {idProveedor: toInteger(row.idProveedor)})
+MERGE (ci:Ciudad {idCiudad: toInteger(row.idCiudad)})
 MERGE (pr)-[:SE_UBICA_EN]->(ci);
 
-LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/TIENE_UNA.csv' AS row
-WITH row WHERE row.idCliente IS NOT NULL AND row.idAficcion IS NOT NULL
-MATCH (c:Cliente {idCliente: toInteger(row.idCliente)})
-MERGE (a:Aficcion {nombre: row.idAficcion})
-MERGE (c)-[:TIENE_UNA]->(a);
 
 LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/TIENE_TITULO_EN.csv' AS row
 WITH row WHERE row.idCliente IS NOT NULL AND row.idEstudio IS NOT NULL
@@ -64,3 +59,51 @@ WITH row WHERE row.idDireccion IS NOT NULL AND row.idCiudad IS NOT NULL
 MATCH (d:Direccion {idDireccion: toInteger(row.idDireccion)})
 MATCH (ci:Ciudad {idCiudad: toInteger(row.idCiudad)})
 MERGE (d)-[:ESTA_UBICADA_EN]->(ci);
+
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/TIENE_UNA.csv' AS row
+WITH row WHERE row.idCliente IS NOT NULL AND row.idAficcion IS NOT NULL
+MATCH (c:Cliente {idCliente: 1001}), (a:aficion {nombre: 'Ajedrez'})
+MERGE (c)-[:TIENE_UNA]->(a);
+
+MATCH (c:Cliente {idCliente: 1002}), (a:aficion {nombre: 'Pintura'})
+MERGE (c)-[:TIENE_UNA]->(a);
+
+MATCH (c:Cliente {idCliente: 1003}), (a:aficion {nombre: 'Fotografía'})
+MERGE (c)-[:TIENE_UNA]->(a);
+
+MATCH (c:Cliente {idCliente: 1004}), (a:aficion {nombre: 'Ciclismo'})
+MERGE (c)-[:TIENE_UNA]->(a);
+
+MATCH (c:Cliente {idCliente: 1005}), (a:aficion {nombre: 'Programación'})
+MERGE (c)-[:TIENE_UNA]->(a);
+
+MATCH (c:Cliente {idCliente: 1006}), (a:aficion {nombre: 'Natación'})
+MERGE (c)-[:TIENE_UNA]->(a);
+
+MATCH (c:Cliente {idCliente: 1007}), (a:aficion {nombre: 'Música'})
+MERGE (c)-[:TIENE_UNA]->(a);
+
+MATCH (c:Cliente {idCliente: 1008}), (a:aficion {nombre: 'Baile'})
+MERGE (c)-[:TIENE_UNA]->(a);
+
+MATCH (c:Cliente {idCliente: 1009}), (a:aficion {nombre: 'Viajar'})
+MERGE (c)-[:TIENE_UNA]->(a);
+
+MATCH (c:Cliente {idCliente: 1010}), (a:aficion {nombre: 'Dibujo'})
+MERGE (c)-[:TIENE_UNA]->(a);
+
+MATCH (c:Cliente {idCliente: 1011}), (a:aficion {nombre: 'Astronomía'})
+MERGE (c)-[:TIENE_UNA]->(a);
+
+MATCH (c:Cliente {idCliente: 1012}), (a:aficion {nombre: 'Jardinería'})
+MERGE (c)-[:TIENE_UNA]->(a);
+
+MATCH (c:Cliente {idCliente: 1013}), (a:aficion {nombre: 'Cocina'})
+MERGE (c)-[:TIENE_UNA]->(a);
+
+MATCH (c:Cliente {idCliente: 1014}), (a:aficion {nombre: 'Teatro'})
+MERGE (c)-[:TIENE_UNA]->(a);
+
+MATCH (c:Cliente {idCliente: 1015}), (a:aficion {nombre: 'Escultura'})
+MERGE (c)-[:TIENE_UNA]->(a);
+
