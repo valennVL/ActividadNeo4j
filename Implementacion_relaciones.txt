@@ -40,13 +40,13 @@ MATCH (pr:Proveedor {idProveedor: toInteger(row.idProveedor)})
 MATCH (ci:Ciudad {idCiudad: toInteger(row.idCiudad)})
 MERGE (pr)-[:SE_UBICA_EN]->(ci);
 
-LOAD CSV WITH HEADERS FROM 'file:///TIENE_UNA.csv' AS row
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/TIENE_UNA.csv' AS row
 WITH row WHERE row.idCliente IS NOT NULL AND row.idAficcion IS NOT NULL
 MATCH (c:Cliente {idCliente: toInteger(row.idCliente)})
 MERGE (a:Aficcion {nombre: row.idAficcion})
 MERGE (c)-[:TIENE_UNA]->(a);
 
-LOAD CSV WITH HEADERS FROM 'file:///TIENE_TITULO_EN.csv' AS row
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/TIENE_TITULO_EN.csv' AS row
 WITH row WHERE row.idCliente IS NOT NULL AND row.idEstudio IS NOT NULL
 MATCH (c:Cliente {idCliente: toInteger(row.idCliente)})
 MERGE (e:Estudio {nombre: row.idEstudio})
