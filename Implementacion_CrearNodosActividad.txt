@@ -37,10 +37,11 @@ MERGE (:Categoria {
 
 
 LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/Aficiones.csv' AS row
-WITH row WHERE row.idAficion IS NOT NULL
+WITH row
+WHERE row.nombre IS NOT NULL AND row.tipo IS NOT NULL
 MERGE (:Aficion {
-    idAficion: toInteger(row.idAficion),
-    nombre: row.nombre
+    nombre: row.nombre,
+    tipo: row.tipo
 });
 
 
@@ -63,10 +64,11 @@ MERGE (:Direccion {
 
 
 LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/valennVL/ActividadNeo4j/main/Estudios.csv' AS row
-WITH row WHERE row.idEstudio IS NOT NULL
+WITH row
+WHERE row.nombre IS NOT NULL AND row.tipo IS NOT NULL
 MERGE (:Estudio {
-    idEstudio: toInteger(row.idEstudio),
-    nombre: row.nombre
+    nombre: row.nombre,
+    tipo: row.tipo
 });
 
 
